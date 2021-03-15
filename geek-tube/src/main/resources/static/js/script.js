@@ -1,8 +1,16 @@
 let videoPlayer = document.getElementById("videoPlayer");
 
-fetch("/currenttime")
-    .then(resp => resp.text().then(ct => videoPlayer.currentTime = ct))
-    .catch(reason => console.error(reason));
+let ct = sessionStorage.getItem("currentTime");
+if (ct != null) {
+    videoPlayer.currentTime = ct;
+} else {
+    fetch("/currenttime")
+        .then(resp => resp.text().then(ct => {
+            videoPlayer.currentTime = ct;
+            sessionStorage.setItem("currentTime", ct);
+        }))
+        .catch(reason => console.error(reason));
+}
 
 fetch("/currentstate")
     .then(resp => resp.text()
@@ -17,9 +25,16 @@ fetch("/currentstate")
     )
     .catch(reason => console.error(reason));
 
+let lastSave = videoPlayer.currentTime;
+
 videoPlayer.ontimeupdate = () => {
-    fetch("/savetime?currentTime=" + videoPlayer.currentTime, {method: 'POST'})
-        .catch(reason => console.error(reason));
+    sessionStorage.setItem("currentTime", videoPlayer.currentTime);
+
+    if (Math.abs(videoPlayer.currentTime - lastSave) > 10) {
+        lastSave = videoPlayer.currentTime;
+        fetch("/savetime?currentTime=" + videoPlayer.currentTime, {method: 'POST'})
+            .catch(reason => console.error(reason));
+    }
 }
 
 videoPlayer.onplay = () => {
