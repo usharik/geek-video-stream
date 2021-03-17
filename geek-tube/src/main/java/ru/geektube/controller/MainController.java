@@ -17,6 +17,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 @Controller
+@CrossOrigin(origins = "http://localhost:63342")
 public class MainController {
 
     private final Logger logger = LoggerFactory.getLogger(MainController.class);
@@ -59,6 +60,13 @@ public class MainController {
                 streamBytesInfo.getRangeStart(), streamBytesInfo.getRangeStop(),
                 new DecimalFormat("###.##").format(100.0 * streamBytesInfo.getRangeStart() / streamBytesInfo.getFileSize()));
         return builder.body(streamBytesInfo.getBytes());
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<Void> uploadVideo(NewVideoRepr newVideoRepr) {
+        logger.info(newVideoRepr.getDescription());
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @ExceptionHandler

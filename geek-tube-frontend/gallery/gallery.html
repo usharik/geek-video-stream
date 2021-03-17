@@ -1,0 +1,10 @@
+<div class="row g-3">
+    <div ng-repeat="preview in previews" class="col-4">
+        <a href="#!/view/{{preview.id}}">
+            <img src="{{preview.imageUrl}}" alt="..." class="card-img-top">
+        </a>
+        <div class="card-body">
+            <p class="card-text">{{preview.description}}</p>
+        </div>
+    </div>
+</div>

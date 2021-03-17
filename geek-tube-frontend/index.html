@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Geek Tube</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://unpkg.com/@uirouter/angularjs@1.0.29/release/angular-ui-router.min.js"></script>
+</head>
+
+<body>
+    <nav ui-view="navbar"></nav>
+
+    <div ui-view="content" class="container mt-3" ></div>
+
+    <div ui-view="footer"></div>
+
+    <script src="app.js"></script>
+    <script src="app.routes.js"></script>
+    <script src="navbar/navbar.js"></script>
+    <script src="gallery/gallery.js"></script>
+    <script src="upload/upload.js"></script>
+    <script src="view/view.js"></script>
+    <script src="footer/footer.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
+</body>
+
+</html>
