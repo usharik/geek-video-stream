@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 @Controller
-@CrossOrigin(origins = "http://localhost:63342")
+@CrossOrigin(origins = "http://localhost:4200")
 public class MainController {
 
     private final Logger logger = LoggerFactory.getLogger(MainController.class);

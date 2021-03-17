@@ -1,0 +1,10 @@
+<div class="card">
+  <video id="videoPlayer" controls class="card-img-top">
+    <source src="@{/stream/{videoFileName}(videoFileName = ${videoFileName})}" type="${videoFormat}">
+    Your browser does not support the video tag.
+  </video>
+  <div class="card-body">
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+      content.</p>
+  </div>
+</div>

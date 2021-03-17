@@ -21,5 +21,6 @@ public class FrameGrabberService {
                 ImageIO.write(image, "png", new File("/Users/macbook/IdeaProjects/geek-video-stream/data/frame-" + i + ".png"));
             }
         }
+        g.stop();
     }
 }
