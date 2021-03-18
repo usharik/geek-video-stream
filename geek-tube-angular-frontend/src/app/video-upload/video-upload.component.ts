@@ -9,6 +9,8 @@ import {Router} from "@angular/router";
 })
 export class VideoUploadComponent implements OnInit {
 
+  isError: boolean = false;
+
   constructor(private dataService: DataService, private router: Router) { }
 
   ngOnInit(): void {
@@ -20,8 +22,14 @@ export class VideoUploadComponent implements OnInit {
     if (form) {
       let fd = new FormData(form);
       this.dataService.uploadNewVideo(fd)
-        .then(() => this.router.navigate(['player/1']))
-        .catch((err) => console.error(err));
+        .then(() => {
+          this.isError = false;
+          this.router.navigate(['player/1']);
+        })
+        .catch((err) => {
+          this.isError = true;
+          console.error(err);
+        });
     }
   }
 }

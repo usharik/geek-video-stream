@@ -1,9 +1,9 @@
 <div class="card">
   <video id="videoPlayer" controls class="card-img-top" #videoPlayer>
-    <source src="{{videoStreamUrl}}" type="{{contentType}}">
+    <source src="{{videoMetadata.streamUrl}}" type="{{videoMetadata.contentType}}">
     Your browser does not support the video tag.
   </video>
   <div class="card-body">
-    <p class="card-text">{{description}}</p>
+    <p class="card-text">{{videoMetadata.description}}</p>
   </div>
 </div>

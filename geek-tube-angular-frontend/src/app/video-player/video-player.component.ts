@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DataService} from "../data.service";
 import {ActivatedRoute} from "@angular/router";
+import {VideoMetadata} from "../video-metadata";
 
 @Component({
   selector: 'app-video-player',
@@ -9,9 +10,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class VideoPlayerComponent implements OnInit {
 
-  videoStreamUrl: string = '';
-  contentType: string = '';
-  description: string = '';
+  public videoMetadata: VideoMetadata  = new VideoMetadata(0, '', '', '', '');
 
   @ViewChild("videoPlayer") videoPlayerRef!: ElementRef;
 
@@ -22,9 +21,7 @@ export class VideoPlayerComponent implements OnInit {
       console.log(param)
       this.dataService.findById(param.id)
         .then((vmd) => {
-          this.videoStreamUrl = 'http://localhost:8080/api/v1/video/stream/' + param.id;
-          this.contentType = vmd.contentType;
-          this.description = vmd.description;
+          this.videoMetadata = vmd;
 
           let videoPlayer = this.videoPlayerRef.nativeElement;
           videoPlayer.load();

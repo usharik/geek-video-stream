@@ -1,4 +1,9 @@
 <form id="uploadForm" name="uploadForm">
+
+  <div class="alert alert-danger" [style.display]="isError ? 'block' : 'none'">
+    Error uploading file to server
+  </div>
+
   <div class="mb-3">
     <label for="description">Email address</label>
     <input type="text" class="form-control" name="description" id="description" aria-describedby="Video description"

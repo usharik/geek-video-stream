@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.WRITE;
+import static ru.geektube.Utils.removeFileExt;
 
 @Service
 public class VideoStreamService {
@@ -47,6 +48,8 @@ public class VideoStreamService {
                 .stream().map(vmd -> {
                     VideoMetadataRepr repr = new VideoMetadataRepr();
                     repr.setId(vmd.getId());
+                    repr.setPreviewUrl("/api/v1/video/preview/" + vmd.getId());
+                    repr.setStreamUrl("/api/v1/video/stream/" + vmd.getId());
                     repr.setDescription(vmd.getDescription());
                     repr.setContentType(vmd.getContentType());
                     return repr;
@@ -57,6 +60,8 @@ public class VideoStreamService {
         return repository.findById(id).map(vmd -> {
             VideoMetadataRepr repr = new VideoMetadataRepr();
             repr.setId(vmd.getId());
+            repr.setPreviewUrl("/api/v1/video/preview/" + vmd.getId());
+            repr.setStreamUrl("/api/v1/video/stream/" + vmd.getId());
             repr.setDescription(vmd.getDescription());
             repr.setContentType(vmd.getContentType());
             return repr;
@@ -144,10 +149,5 @@ public class VideoStreamService {
             logger.error("", ex);
             return Optional.empty();
         }
-    }
-
-    private String removeFileExt(String fileName) {
-        int extIndex = fileName.lastIndexOf(".");
-        return fileName.substring(0, extIndex);
     }
 }

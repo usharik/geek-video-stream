@@ -10,17 +10,19 @@ import {VideoMetadata} from "../video-metadata";
 export class VideoGalleryComponent implements OnInit {
 
   previews: VideoMetadata[] = [];
+  isError: boolean = false;
 
   constructor(public dataService: DataService) {}
 
   ngOnInit(): void {
     this.dataService.findAllPreviews()
       .then(res => {
-        res.forEach(vmd => {
-          vmd.previewUrl = '/api/v1/video/preview/' + vmd.id;
-        });
+        this.isError = false;
         this.previews = res;
       })
+      .catch(err => {
+        this.isError = true;
+      });
   }
 
 }

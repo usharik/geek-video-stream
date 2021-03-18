@@ -10,6 +10,8 @@ public class VideoMetadataRepr {
 
     private String previewUrl;
 
+    private String streamUrl;
+
     public VideoMetadataRepr() {
     }
 
@@ -43,5 +45,13 @@ public class VideoMetadataRepr {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public String getStreamUrl() {
+        return streamUrl;
+    }
+
+    public void setStreamUrl(String streamUrl) {
+        this.streamUrl = streamUrl;
     }
 }

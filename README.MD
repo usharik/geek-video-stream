@@ -27,7 +27,7 @@ Frontend going to be available here http://localhost:4200/
 
 Notice the backend proxying configuration is [here](/geek-tube-angular-frontend/proxy.conf.json) in the sources
 
-After that go to the `geek-tube` in another console and run backend with
+After that go to the project root in another console and run backend with
 ```bash
 ./mvnw spring-boot:run
 ```

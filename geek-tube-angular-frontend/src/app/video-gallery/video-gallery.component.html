@@ -1,7 +1,11 @@
 <div class="row g-3">
 
+  <div class="alert alert-danger" [style.display]="isError ? 'block' : 'none'">
+    Can't load the video gallery
+  </div>
+
   <div class="col-4" *ngFor="let preview of previews">
-    <a href="/player/{{preview.id}}">
+    <a routerLink="/player/{{preview.id}}">
       <img src="{{preview.previewUrl}}" alt="..." class="card-img-top">
     </a>
     <div class="card-body">
