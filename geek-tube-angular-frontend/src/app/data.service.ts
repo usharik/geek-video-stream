@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {VideoMetadata} from "./video-metadata";
 
 @Injectable({
   providedIn: 'root'
@@ -9,27 +10,25 @@ export class DataService {
   constructor(private http: HttpClient) {
   }
 
-  public findAllPreviews() {
-    return [
-      {id: 1, description: `First video`, imageUrl: `https://loremflickr.com/213/106`},
-      {id: 2, description: `Second video`, imageUrl: `https://loremflickr.com/213/106`},
-      {id: 3, description: `Third video`, imageUrl: `https://loremflickr.com/213/106`},
-      {id: 5, description: `Fifth video`, imageUrl: `https://loremflickr.com/213/106`},
-      {id: 6, description: `Sixth video`, imageUrl: `https://loremflickr.com/213/106`},
-      {id: 7, description: `Seventh video`, imageUrl: `https://loremflickr.com/213/106`},
-      {id: 8, description: `Eighth video`, imageUrl: `https://loremflickr.com/213/106`},
-    ]
+  // public findAllPreviews() {
+  //   return [
+  //     new VideoMetadata(1, 'First video', 'https://loremflickr.com/213/106'),
+  //     new VideoMetadata(2,'Second video', 'https://loremflickr.com/213/106'),
+  //     new VideoMetadata(3, 'Third video', 'https://loremflickr.com/213/106'),
+  //     new VideoMetadata(4, 'Fourth video', 'https://loremflickr.com/213/106'),
+  //     new VideoMetadata(5, 'Fifth video', 'https://loremflickr.com/213/106'),
+  //   ]
+  // }
+
+  public findById(id: number) {
+    return this.http.get<VideoMetadata>('/api/v1/video/' + id).toPromise()
   }
 
-  public uploadNewVideo(formData: FormData, onSuccess: Function) {
-    this.http.post("http://localhost:8080/upload", formData).subscribe({
-      next: data => {
-        console.log("New video submitted");
-        onSuccess();
-      },
-      error: error => {
-        console.error(error.message)
-      }
-    });
+  public findAllPreviews() {
+    return this.http.get<VideoMetadata[]>('/api/v1/video/all').toPromise()
+  }
+
+  public uploadNewVideo(formData: FormData) {
+    return this.http.post('/api/v1/video/upload', formData).toPromise()
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from "../data.service";
+import {VideoMetadata} from "../video-metadata";
 
 @Component({
   selector: 'app-video-gallery',
@@ -8,12 +9,18 @@ import { DataService } from "../data.service";
 })
 export class VideoGalleryComponent implements OnInit {
 
-  previews: any;
+  previews: VideoMetadata[] = [];
 
-  constructor(public dataService: DataService) { }
+  constructor(public dataService: DataService) {}
 
   ngOnInit(): void {
-    this.previews = this.dataService.findAllPreviews();
+    this.dataService.findAllPreviews()
+      .then(res => {
+        res.forEach(vmd => {
+          vmd.previewUrl = '/api/v1/video/preview/' + vmd.id;
+        });
+        this.previews = res;
+      })
   }
 
 }

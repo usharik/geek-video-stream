@@ -1,8 +1,10 @@
 package ru.geektube.service;
 
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+
 public class StreamBytesInfo {
 
-    private final byte[] bytes;
+    private final StreamingResponseBody responseBody;
 
     private final long fileSize;
 
@@ -10,15 +12,15 @@ public class StreamBytesInfo {
 
     private final long rangeEnd;
 
-    public StreamBytesInfo(byte[] bytes, long fileSize, long rangeStart, long rangeStop) {
-        this.bytes = bytes;
+    public StreamBytesInfo(StreamingResponseBody responseBody, long fileSize, long rangeStart, long rangeStop) {
+        this.responseBody = responseBody;
         this.fileSize = fileSize;
         this.rangeStart = rangeStart;
         this.rangeEnd = rangeStop;
     }
 
-    public byte[] getBytes() {
-        return bytes;
+    public StreamingResponseBody getResponseBody() {
+        return responseBody;
     }
 
     public long getFileSize() {

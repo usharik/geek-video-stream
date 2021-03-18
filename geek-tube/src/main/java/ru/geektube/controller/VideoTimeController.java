@@ -1,5 +1,7 @@
 package ru.geektube.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,6 +11,8 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 public class VideoTimeController {
+
+    private final Logger logger = LoggerFactory.getLogger(VideoTimeController.class);
 
     @PostMapping("/savetime")
     public void saveCurrentTime(@RequestParam("currentTime") String currentTime, HttpSession session) {

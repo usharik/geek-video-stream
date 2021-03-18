@@ -19,8 +19,9 @@ export class VideoUploadComponent implements OnInit {
     let form:HTMLFormElement | null = document.forms.namedItem('uploadForm');
     if (form) {
       let fd = new FormData(form);
-      this.dataService.uploadNewVideo(fd,
-        () => this.router.navigate(['player/1']));
+      this.dataService.uploadNewVideo(fd)
+        .then(() => this.router.navigate(['player/1']))
+        .catch((err) => console.error(err));
     }
   }
 }

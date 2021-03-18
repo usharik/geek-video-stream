@@ -1,4 +1,4 @@
-package ru.geektube.controller;
+package ru.geektube.service.repr;
 
 import org.springframework.web.multipart.MultipartFile;
 
