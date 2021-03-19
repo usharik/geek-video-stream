@@ -116,7 +116,7 @@ public class VideoStreamService {
         if (byId.isEmpty()) {
             return Optional.empty();
         }
-        Path filePath = Path.of(dataFolder, byId.get().getFileName());
+        Path filePath = Path.of(dataFolder, Long.toString(id), byId.get().getFileName());
         if (!Files.exists(filePath)) {
             logger.error("File {} not found", filePath);
             return Optional.empty();

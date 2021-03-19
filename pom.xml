@@ -16,6 +16,7 @@
 
     <modules>
         <module>geek-tube</module>
+        <module>geek-tube-angular-frontend</module>
     </modules>
 
 </project>
