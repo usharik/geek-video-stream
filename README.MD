@@ -7,6 +7,7 @@ To build and run the app you need to have on your PC:
 * [JDK 11 or later](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
 * [NodeJS](https://nodejs.org/)
 * [Angular CLI](https://angular.io/guide/setup-local)
+* [MySQL](https://dev.mysql.com/downloads/)
 
 To install Angular CLI run the command
 ```bash
@@ -36,4 +37,13 @@ Some recommended links about video streaming
 * https://tutorial-academy.com/rest-jersey2-resume-video-streaming/
 * https://saravanastar.medium.com/video-streaming-over-http-using-spring-boot-51e9830a3b8
 * https://technicalsand.com/streaming-data-spring-boot-restful-web-service/#2-2-streamingresponsebody-as-return-type
+
+For the experiments with deployment to real servers I recommend to use
+
+[![reg.ru](https://www.reg.ru/i/affiliate/100x100.1.jpg)](https://www.reg.ru/?rlink=reflink-6434017)
+
+If you like that, you can support me here
+
+[![ko-fi](https://www.ko-fi.com/img/donate_sm.png)](https://ko-fi.com/X8X8NI26)
+[![PayPal](https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg)](https://www.paypal.me/usharik)
 
