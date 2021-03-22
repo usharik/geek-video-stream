@@ -12,11 +12,16 @@ public class StreamBytesInfo {
 
     private final long rangeEnd;
 
-    public StreamBytesInfo(StreamingResponseBody responseBody, long fileSize, long rangeStart, long rangeStop) {
+    private final String contentType;
+
+    public StreamBytesInfo(StreamingResponseBody responseBody,
+                           long fileSize, long rangeStart, long rangeStop,
+                           String contentType) {
         this.responseBody = responseBody;
         this.fileSize = fileSize;
         this.rangeStart = rangeStart;
         this.rangeEnd = rangeStop;
+        this.contentType = contentType;
     }
 
     public StreamingResponseBody getResponseBody() {
@@ -31,7 +36,11 @@ public class StreamBytesInfo {
         return rangeStart;
     }
 
-    public long getRangeStop() {
+    public long getRangeEnd() {
         return rangeEnd;
+    }
+
+    public String getContentType() {
+        return contentType;
     }
 }

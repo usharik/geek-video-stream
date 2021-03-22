@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import ru.geektube.service.StreamBytesInfo;
-import ru.geektube.service.repr.VideoMetadataRepr;
-import ru.geektube.service.VideoStreamService;
-import ru.geektube.service.repr.NewVideoRepr;
+import ru.geektube.controller.repr.VideoMetadataRepr;
+import ru.geektube.service.VideoService;
+import ru.geektube.controller.repr.NewVideoRepr;
 
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -24,26 +24,26 @@ public class VideoController {
 
     private final Logger logger = LoggerFactory.getLogger(VideoController.class);
 
-    private final VideoStreamService videoStreamService;
+    private final VideoService videoService;
 
     @Autowired
-    public VideoController(VideoStreamService videoStreamService) {
-        this.videoStreamService = videoStreamService;
+    public VideoController(VideoService videoService) {
+        this.videoService = videoService;
     }
 
     @GetMapping("/all")
     public List<VideoMetadataRepr> findAllVideoMetadata() {
-        return videoStreamService.findAllVideoMetadata();
+        return videoService.findAllVideoMetadata();
     }
 
     @GetMapping("/{id}")
     public VideoMetadataRepr findVideoMetadataById(@PathVariable("id") Long id) {
-        return videoStreamService.findById(id).orElseThrow(NotFoundException::new);
+        return videoService.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @GetMapping(value = "/preview/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<StreamingResponseBody> getPreviewPicture(@PathVariable("id") Long id) {
-        InputStream inputStream = videoStreamService.getPreviewInputStream(id)
+        InputStream inputStream = videoService.getPreviewInputStream(id)
                 .orElseThrow(NotFoundException::new);
         return ResponseEntity.ok(inputStream::transferTo);
     }
@@ -54,23 +54,23 @@ public class VideoController {
         logger.info("Requested range [{}] for file `{}`", httpRangeHeader, id);
 
         List<HttpRange> httpRangeList = HttpRange.parseRanges(httpRangeHeader);
-        StreamBytesInfo streamBytesInfo = videoStreamService.getStreamBytes(id, httpRangeList.size() > 0 ? httpRangeList.get(0) : null)
+        StreamBytesInfo streamBytesInfo = videoService.getStreamBytes(id, httpRangeList.size() > 0 ? httpRangeList.get(0) : null)
                 .orElseThrow(NotFoundException::new);
 
-        long byteLength = streamBytesInfo.getRangeStop() - streamBytesInfo.getRangeStart() + 1;
+        long byteLength = streamBytesInfo.getRangeEnd() - streamBytesInfo.getRangeStart() + 1;
         ResponseEntity.BodyBuilder builder = ResponseEntity.status(httpRangeList.size() > 0 ? HttpStatus.PARTIAL_CONTENT : HttpStatus.OK)
-                .header("Content-Type", "video/mp4")
+                .header("Content-Type", streamBytesInfo.getContentType())
                 .header("Accept-Ranges", "bytes")
                 .header("Content-Length", Long.toString(byteLength));
 
         if (httpRangeList.size() > 0) {
             builder.header("Content-Range",
                     "bytes " + streamBytesInfo.getRangeStart() +
-                            "-" + streamBytesInfo.getRangeStop() +
+                            "-" + streamBytesInfo.getRangeEnd() +
                             "/" + streamBytesInfo.getFileSize());
         }
         logger.info("Providing bytes from {} to {}. We are at {}% of overall video.",
-                streamBytesInfo.getRangeStart(), streamBytesInfo.getRangeStop(),
+                streamBytesInfo.getRangeStart(), streamBytesInfo.getRangeEnd(),
                 new DecimalFormat("###.##").format(100.0 * streamBytesInfo.getRangeStart() / streamBytesInfo.getFileSize()));
         return builder.body(streamBytesInfo.getResponseBody());
     }
@@ -80,7 +80,7 @@ public class VideoController {
         logger.info(newVideoRepr.getDescription());
 
         try {
-            videoStreamService.saveNewVideo(newVideoRepr);
+            videoService.saveNewVideo(newVideoRepr);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

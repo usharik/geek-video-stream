@@ -1,4 +1,4 @@
-package ru.geektube.service.repr;
+package ru.geektube.controller.repr;
 
 public class VideoMetadataRepr {
 

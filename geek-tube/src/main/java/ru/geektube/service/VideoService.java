@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpRange;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.geektube.service.repr.NewVideoRepr;
 import ru.geektube.persist.VideoMetadata;
 import ru.geektube.persist.VideoMetadataRepository;
-import ru.geektube.service.repr.VideoMetadataRepr;
+
+import ru.geektube.controller.repr.VideoMetadataRepr;
+import ru.geektube.controller.repr.NewVideoRepr;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,9 +27,9 @@ import static java.nio.file.StandardOpenOption.WRITE;
 import static ru.geektube.Utils.removeFileExt;
 
 @Service
-public class VideoStreamService {
+public class VideoService {
 
-    private final Logger logger = LoggerFactory.getLogger(VideoStreamService.class);
+    private final Logger logger = LoggerFactory.getLogger(VideoService.class);
 
     @Value("${data.folder}")
     private String dataFolder;
@@ -38,26 +39,23 @@ public class VideoStreamService {
     private final FrameGrabberService frameGrabberService;
 
     @Autowired
-    public VideoStreamService(VideoMetadataRepository repository, FrameGrabberService frameGrabberService) {
+    public VideoService(VideoMetadataRepository repository, FrameGrabberService frameGrabberService) {
         this.repository = repository;
         this.frameGrabberService = frameGrabberService;
     }
 
     public List<VideoMetadataRepr> findAllVideoMetadata() {
-        return repository.findAll()
-                .stream().map(vmd -> {
-                    VideoMetadataRepr repr = new VideoMetadataRepr();
-                    repr.setId(vmd.getId());
-                    repr.setPreviewUrl("/api/v1/video/preview/" + vmd.getId());
-                    repr.setStreamUrl("/api/v1/video/stream/" + vmd.getId());
-                    repr.setDescription(vmd.getDescription());
-                    repr.setContentType(vmd.getContentType());
-                    return repr;
-                }).collect(Collectors.toList());
+        return repository.findAll().stream()
+                .map(VideoService::convert)
+                .collect(Collectors.toList());
     }
 
     public Optional<VideoMetadataRepr> findById(Long id) {
-        return repository.findById(id).map(vmd -> {
+        return repository.findById(id)
+                .map(VideoService::convert);
+    }
+
+    private static VideoMetadataRepr convert(VideoMetadata vmd) {
             VideoMetadataRepr repr = new VideoMetadataRepr();
             repr.setId(vmd.getId());
             repr.setPreviewUrl("/api/v1/video/preview/" + vmd.getId());
@@ -65,7 +63,6 @@ public class VideoStreamService {
             repr.setDescription(vmd.getDescription());
             repr.setContentType(vmd.getContentType());
             return repr;
-        });
     }
 
     public Optional<InputStream> getPreviewInputStream(Long id) {
@@ -127,7 +124,7 @@ public class VideoStreamService {
             if (range == null) {
                 return Optional.of(new StreamBytesInfo(
                         out -> Files.newInputStream(filePath).transferTo(out),
-                        fileSize, 0, fileSize));
+                        fileSize, 0, fileSize, byId.get().getContentType()));
             }
 
             long rangeStart = range.getRangeStart(0);
@@ -144,7 +141,7 @@ public class VideoStreamService {
                             out.write(bytes);
                         }
                     },
-                    fileSize, rangeStart, rangeEnd));
+                    fileSize, rangeStart, rangeEnd, byId.get().getContentType()));
         } catch (IOException ex) {
             logger.error("", ex);
             return Optional.empty();
