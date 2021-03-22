@@ -12,11 +12,11 @@ export class DataService {
 
   // public findAllPreviews() {
   //   return [
-  //     new VideoMetadata(1, 'First video', 'https://loremflickr.com/213/106'),
-  //     new VideoMetadata(2,'Second video', 'https://loremflickr.com/213/106'),
-  //     new VideoMetadata(3, 'Third video', 'https://loremflickr.com/213/106'),
-  //     new VideoMetadata(4, 'Fourth video', 'https://loremflickr.com/213/106'),
-  //     new VideoMetadata(5, 'Fifth video', 'https://loremflickr.com/213/106'),
+  //     new VideoMetadata(1, 'First video', 'video/mp4', 'https://loremflickr.com/213/106', ''),
+  //     new VideoMetadata(2,'Second video', 'video/mp4', 'https://loremflickr.com/213/106', ''),
+  //     new VideoMetadata(3, 'Third video', 'video/mp4','https://loremflickr.com/213/106', ''),
+  //     new VideoMetadata(4, 'Fourth video', 'video/mp4','https://loremflickr.com/213/106', ''),
+  //     new VideoMetadata(5, 'Fifth video', 'video/mp4','https://loremflickr.com/213/106', ''),
   //   ]
   // }
 
